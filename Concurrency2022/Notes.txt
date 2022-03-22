@@ -1,0 +1,11 @@
+Homework 2022-03-22
+Introduce threads into generate method of lesson220315.Example05Threaded
+Use interrupt() to fix lesson220322.Example08WhyStopIsDeprecated
+
+Visibility problem: stale values 
+Thread Safety
+Race condition:
+
+c   0   11
+T1--0-1------------------------------------------ 
+T2---0-1----------------------------------------
