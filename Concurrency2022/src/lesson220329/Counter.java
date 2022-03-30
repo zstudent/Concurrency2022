@@ -1,11 +1,11 @@
-package lesson220322;
+package lesson220329;
 
 import utils.Util;
 
 public class Counter {
 	int c = 0;
 	
-	public void inc() {
+	synchronized void inc() {
 		// c++;
 		int t = c;   // read
 		t = t + 1;   // modify
@@ -13,7 +13,7 @@ public class Counter {
 		c = t;        // write
 	}
 	
-	public int get() {
+	synchronized public int get() {
 		return c;
 	}
 }
