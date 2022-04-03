@@ -2,6 +2,7 @@ package lesson220315;
 
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class Example05Threaded {
 	
@@ -88,16 +89,27 @@ class RowTask implements Runnable {
 		this.columnCount = matrix[0].length;
 	}
 
-	@Override
-	public void run() {
-		System.out.println(Thread.currentThread() + " started working");
-		for (int colIndex = 0; colIndex < columnCount; colIndex++) {
-			matrix[rowIndex][colIndex] = Math.random();
-		}
-		System.out.println(Thread.currentThread() + " finished working");
-	}
-
 	public static RowTask make(double[][] matrix, int rowIndex) {
 		return new RowTask(matrix, rowIndex);
 	}
+
+	@Override
+	public void run() {
+		System.out.println(Thread.currentThread() + " started working");
+		iterate(columnCount).forEach(this::fillRowWithRandomNumbers);
+		System.out.println(Thread.currentThread() + " finished working");
+	}
+
+	private void fillRowWithRandomNumbers(int columnIndex) {
+		matrix[rowIndex][columnIndex] = Math.random();
+	}
+
+	private IntStream iterateBetween(int start, int end) {
+		return IntStream.range(start, end);
+	}
+
+	private IntStream iterate(int times) {
+		return iterateBetween(0, times);
+	}
+
 }
