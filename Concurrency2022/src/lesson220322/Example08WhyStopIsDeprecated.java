@@ -7,7 +7,7 @@ public class Example08WhyStopIsDeprecated {
 		Thread t = new Thread(new TaskWithInvariant(data));
 		t.start();
 		Thread.sleep(1000);
-		t.stop();
+		t.interrupt();
 		System.out.println(data.isValid());
 	}
 
@@ -24,7 +24,7 @@ class TaskWithInvariant implements Runnable {
 
 	@Override
 	public void run() {
-		while (true) {
+		while (!Thread.currentThread().isInterrupted()) {
 			data.change();
 		}
 		
@@ -41,7 +41,7 @@ class Data {
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
 		y--;
 	}

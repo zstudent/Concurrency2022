@@ -1,6 +1,8 @@
 package lesson220315;
 
 
+import java.util.Arrays;
+
 public class Example05Threaded {
 	
 	public static void main(String[] args) {
@@ -46,14 +48,56 @@ public class Example05Threaded {
 	private static double[][] generate(int rows, int size) {
 		
 		double[][] m = new double[rows][size];
+		var threads = new Thread[rows];
 		
 		for (int i = 0; i < m.length; i++) {
-			for (int j = 0; j < m[i].length; j++) {
-				m[i][j] = Math.random();
-			}
+			RowTask rowTask = RowTask.make(m, i);
+			threads[i] = new Thread(rowTask);
+			threads[i].start();
 		}
-		
+
+		joinAllThreads(threads);
+
 		return m;
 	}
 
+	private static void joinAllThreads(Thread[] threadArray) {
+		Arrays.stream(threadArray).forEach(ThreadOps::join);
+	}
+
+	private static class ThreadOps {
+		public static void join(Thread thread) {
+			try {
+				thread.join();
+			} catch (InterruptedException ignored) {}
+		}
+	}
+
+}
+
+
+class RowTask implements Runnable {
+
+	private final double[][] matrix;
+	private final int rowIndex;
+	private final int columnCount;
+
+	private RowTask(double[][] matrix, int rowIndex) {
+		this.matrix = matrix;
+		this.rowIndex = rowIndex;
+		this.columnCount = matrix[0].length;
+	}
+
+	@Override
+	public void run() {
+		System.out.println(Thread.currentThread() + " started working");
+		for (int colIndex = 0; colIndex < columnCount; colIndex++) {
+			matrix[rowIndex][colIndex] = Math.random();
+		}
+		System.out.println(Thread.currentThread() + " finished working");
+	}
+
+	public static RowTask make(double[][] matrix, int rowIndex) {
+		return new RowTask(matrix, rowIndex);
+	}
 }
