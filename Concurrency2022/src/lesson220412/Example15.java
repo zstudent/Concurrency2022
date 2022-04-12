@@ -1,5 +1,7 @@
 package lesson220412;
 
+import java.lang.Thread.State;
+
 import utils.Util;
 
 public class Example15 {
@@ -12,17 +14,18 @@ public class Example15 {
 		Thread thread = new Thread(() -> {
 			synchronized (mutex) {
 				System.out.println("thread start");
-				Util.pause(5000);
 			}
 		});
-		thread.start();
-		
-		Util.pause(1000);
-		
-		thread.stop();
 		
 		synchronized (mutex) {
-			System.out.println("got it!");
+			thread.start();
+			Util.pause(1000);
+			thread.stop();
+			// now if we check, the thread will remain blocked forever
+			while(thread.getState() != State.TERMINATED) {
+				Util.pause(1000); 
+				System.out.println(thread.getState());
+			}
 		}
 		
 	}
