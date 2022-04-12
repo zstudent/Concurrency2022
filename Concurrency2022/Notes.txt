@@ -1,3 +1,5 @@
+zaal@quantori.com
+
 Homework 2022-03-22
 Introduce threads into generate method of lesson220315.Example05Threaded
 Use interrupt() to fix lesson220322.Example08WhyStopIsDeprecated
@@ -27,3 +29,13 @@ that operate on the same state."
 
 Lock
 Every Java object has intrinsic lock
+
+
+2022-04-12
+Starvation - when a thread needs some resource, but it is owned by some other thread.
+
+Worker Thread
+
+Homework:  
+1. try Excample15 with different JDKs & platforms
+2. modify Example16 to demonstrate the Starvation.
