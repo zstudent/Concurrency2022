@@ -27,11 +27,12 @@ class WorkerThread2 {
 			while (true) {
 				Runnable task = null;
 				while (task == null) {
-					synchronized (tasks) {
+					synchronized (tasks) {  // acquire the mutex
 						task = tasks.poll();
 						if (task == null) {
 							try {
-								tasks.wait();
+								tasks.wait(); // waiting for a signal, mutex is freed
+								// after receiving the signal we wait for mutex to be acquired
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
@@ -50,7 +51,7 @@ class WorkerThread2 {
 	}
 
 	public void execute(Runnable task) {
-		synchronized (tasks) {
+		synchronized (tasks) { // tasks here is a mutex (monitor)
 			tasks.offer(task);
 			tasks.notify();
 			System.out.println(tasks.size());
