@@ -43,3 +43,28 @@ Homework:
 2022-04-26
 Homework1:  rewrite Example05Threaded with usage of ExecutorService, Callable & Future
 Homework2:   implement CountDownLatch using wait/notify
+
+
+2022-05-17  Semaphore
+
+         			synchronized        lock       semaphore
+
+critical section         +                +            +     
+
+signaling                +                +            +
+
+interruptible            -                +            +
+
+tryLock, timeout         -                +            +
+
+supports fair            -                +            +
+
+reentrant                +                +            -
+
+may be released 
+by another thread        -                -            +
+
+Homework:  implement BlockingQueue with Semaphore
+
+
+
